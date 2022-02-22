@@ -22,6 +22,7 @@ static const char * const TAG = "EXAMPLE_OR";
 #define BUTTON_I2 GPIO_NUM_32        // Pin 32.
 #define BUTTON_I3 GPIO_NUM_39        // Pin 39.
 #define GPIO_Q1 GPIO_NUM_19            // Pin 19.
+#define GPIO_Q2 GPIO_NUM_23
 
 
 
@@ -41,16 +42,22 @@ extern "C" void app_main(void)
        functions.)
     */
     gpio_reset_pin(GPIO_Q1);
+    gpio_reset_pin(GPIO_Q2);
 
     gpio_reset_pin(BUTTON_I1);
     gpio_reset_pin(BUTTON_I2);
     gpio_reset_pin(BUTTON_I3);
     /* Set the GPIO as a push/pull output */
     gpio_set_direction(GPIO_Q1, GPIO_MODE_OUTPUT);
+    gpio_set_direction(GPIO_Q2, GPIO_MODE_OUTPUT);
+
     gpio_set_direction(BUTTON_I1, GPIO_MODE_INPUT);
     gpio_set_direction(BUTTON_I2, GPIO_MODE_INPUT);
     gpio_set_direction(BUTTON_I3, GPIO_MODE_INPUT);
     gpio_set_level(GPIO_Q1, 0); //set to 0 at Reset.
+    gpio_set_level(GPIO_Q2, 0); //set to 0 at Reset.
+
+
 
 
 
@@ -68,7 +75,7 @@ extern "C" void app_main(void)
 
         // Ausgaenge setzen
         gpio_set_level(GPIO_Q1, (I1 or I2) and not I3); //Verwendung des OR aus der IEC IEC 61131; auch in C++ vorhanden, in C nicht not
-
+        gpio_set_level(GPIO_Q2, not I3);
         // 100ms warten  = Intervallzeit des Tasks
         vTaskDelay(100 / portTICK_PERIOD_MS); // 100ms cycle for Test.
     }
