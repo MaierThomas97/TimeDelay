@@ -62,9 +62,13 @@ extern "C" void app_main(void)
     gpio_set_level(GPIO_Q3, 0); //set to 0 at Reset.
     gpio_set_level(GPIO_Q4, 0); //set to 0 at Reset.
 
+    TON TON1;
+       TON1.PT = 1000;
+
+
 
     TOGGLE TOGGLE1;
-    TOGGLE TOGGLE2;
+
 
 
     while (true) // Endlos-Schleife
@@ -74,20 +78,18 @@ extern "C" void app_main(void)
         bool I2 = not gpio_get_level(BUTTON_I2);
         bool I3 = not gpio_get_level(BUTTON_I3);
 
+        TON1(I1);
 
-        TOGGLE1.RST = I3;
+        TOGGLE1.RST = I2;
         TOGGLE1(I1);
 
-        TOGGLE2.RST = I3;
-        TOGGLE2(I2);
+
 
 
 
         // Ausgaenge setzen
-        gpio_set_level(GPIO_Q1, TOGGLE1.Q);
-        gpio_set_level(GPIO_Q3, TOGGLE1.Q);
-        gpio_set_level(GPIO_Q2, TOGGLE2.Q);
-        gpio_set_level(GPIO_Q4, TOGGLE2.Q);
+        gpio_set_level(GPIO_Q1, TON1.Q);gpio_set_level(GPIO_Q1, TOGGLE1.Q);
+
 
         // 100ms warten  = Intervallzeit des Tasks
         vTaskDelay(100 / portTICK_PERIOD_MS); // 100ms cycle for Test.
